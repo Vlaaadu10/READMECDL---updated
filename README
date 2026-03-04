@@ -1,0 +1,58 @@
+## **FLAG C : Broken scheduler**
+
+`Pentru a afla flag-ul a trebuit corectat codul scris astfel incat sa nu mai fie erori critice precum:`
+-		lipsa & la scanf
+-		dealocari care stricau buna functionare a programului
+-		modificari care sa combata depasirea de memorie
+-		lipsa unor instructiuni, precum cea a lui break din switch
+`De asemenea, am adaugat si diferite linii noi pentru a afla bucati din flag dupa ce am rezolvat problemele de logica si memorie, precum linii de afisare dupa setarea unui flag.`
+-   **Prefix**: CDL{
+-   La **login** am aflat bucata: `1s`
+-   Dupa login daca introduci pentru partea de load o valoare **>3** va reiesi: `_1t`
+-   Ulterior dupa crearea unui **appointment** programul va afisa "Founda bug" si bucata: `_th4t`
+-   Optiunea 1 de loading: `_t1me`
+-   Optiunea 2 de : `_d0c, t0r`
+-   Iar la bug la optiunea 2: `_4gain`
+-   la optiunea 3: `_fr33`
+-   iar la exit: `m4n}`
+
+**Flag final: CDL{1s_1t_th4t_t1me_4gain_d0ct0r_fr33m4n}**
+
+
+## **FLAG JAVA: Authenticator Pipeline**
+
+`Pentru a afla acest flag, am aplicat acest program de pipeline pentru a valida si transforma mesajele securizate folosind Java. A fost necesara rezolvarea unor bug-uri si erori de logica care compromiteau rularea corecta a pipeline-ului precum situatia de case insensitive in AuthService, astfel incat sa permita validarea mesajului indiferent cum este scris.`
+
+De asemenea, in TransformService am eliminat conditia redundanta if (transformCount == targetTransform) care bloca rularea corecta a pipeline-ului din cauza lipsei sincronizarii, iar, nu in ultimul rand, am schimbat mesajul astfel incat sa contina simultan cele 3 campuri cheie: **"SECRET", "CDL2026", "JAVA"**. Iar conditia finala tranformed = true spune programului ca e gata sa transforme mesajul, intra in functia isReady care devine truem apoi in FlagService se afla flag-ul care se va returna. Astfel, mesajul de intrare este: **java Main "SECRETCDL2026JAVA"** 
+
+**Flag final: CDL{may_the_source_be_with_you}**
+
+
+## **FLAG PYTHON: Reversed Conveyor**
+
+`Pentru a afla acest flag in primul rand am rulat in bash comenzile din README, am pornit serverul folosind comanda python3 server.py intr-un terminal si am scris un script pe care o sa-l apelez in al doilea terminal folosind comanda python3 exploit.py`, in care am trimis o **cerere "GET"** catre endpoint ul /produce pentru a obtine un **token valid alaturi de semnatura**, pe acesta l-am inversat pentru a-l decoda **Base64** astfel incat atunci cand serverul il reinverseaza iar sa fie in forma corecta. Am folosit apoi **cheia rail-yard-key** pentru a genera **semnatura valida** pentru noul **token inversat** si am obtinut flag-ul in /consume.
+
+**python3 exploit.py**
+-  **[*] Pasul 1:** Obținere token de la /produce...
+-   **[*] Pasul 2:** Generare semnătură nouă pentru token-ul inversat...
+-   **[*] Pasul 3:** Trimitere către /consume...
+
+-   **[!] REZULTAT:** {
+  "flag": "CDL{to_serve_or_not_to_serve}"
+  
+  
+## **FLAG LINUX: Labyrinth**
+
+`Pentru a afla acest flag a trebuit rularea executabilului ./labyrinth si rezolvarea celor 23 de task-uri ce tin de linux de la creat directoare, creat fisiere si scris text in ele, oferire de permisiuni pana la crearea de legaturi simbolice.`
+
+**Cateva task uri reprezentative sunt:**
+-   **Task 23:** crearea unui simbolic link:
+-       ln -s ../right_corridor/throne_room/crown.txt entrance/garden/shortcut
+-   **Task 11 + 12:** crearea unui director si a unui fisier in el
+-       mkdir -p entrance/right_corridor/armory
+-       touch entrance/right_corridor/armory/sword.txt
+-   **Task 13:** crearea unui fisier si setarea permisiunilor
+-       touch entrance/right_corridor/armory/shield.txt
+-       chmod 0444 entrance/right_corridor/armory/shield.txt
+
+**Flag final: CDL{tw1sty_p4ssag3s_4nd_m1n0t4ur_m1sdir3ct10n}**
